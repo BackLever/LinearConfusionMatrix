@@ -1,7 +1,7 @@
 # LinearConfusionMatrix
 Confusion Matrix for Linear Model
 
-![1](Images/1.PNG =200x)
-![2](Images/2.PNG =200x)
-![3](Images/3.PNG =200x)
-![4](Images/4.PNG =200x)
+<img src="Images/1.PNG" alt="1" width="200"/>
+<img src="Images/2.PNG" alt="2" width="200"/>
+<img src="Images/3.PNG" alt="3" width="200"/>
+<img src="Images/4.PNG" alt="4" width="200"/>
