@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def linear_confusion_matrix(y_true, y_pred, number=10, annot=False,
+def linear_confusion_matrix_(y_true, y_pred, number=10, annot=False,
                             cmap='Blues', text_colors=["black", "white"], linewidth=2,
                             min_value=None, max_value=None, fontsize=None):
     
@@ -16,6 +16,7 @@ def linear_confusion_matrix(y_true, y_pred, number=10, annot=False,
     data = np.array([y_true[:, 0], y_pred[:, 0]]).T
     data = data[data[:, 0].argsort()].astype(np.float32)
     value_label = np.linspace(min_value, max_value, number + 1)
+    label_x = []
     row_sum = np.zeros(number)
     for i in range(number):
         if i == 0:
@@ -23,12 +24,14 @@ def linear_confusion_matrix(y_true, y_pred, number=10, annot=False,
         else:
             data_tmp = data[(data[:, 0] > value_label[i]) & (data[:, 0] <= value_label[i+1])]
         for j in range(number):
-            if j == 0:
-                data_in_range = data_tmp[(data_tmp[:, 1] >= value_label[j])
-                                         & (data_tmp[:, 1] <= value_label[j+1])]
-            else:
-                data_in_range = data_tmp[(data_tmp[:, 1] > value_label[j])
-                                         & (data_tmp[:, 1] <= value_label[j+1])]
+            start = (value_label[j] + value_label[j+1]) / 2
+            end = (value_label[j+1] - start) + value_label[j+1]
+            data_in_range = data_tmp[(data_tmp[:, 1] > start)
+                                     & (data_tmp[:, 1] <= end)]
+            if i == 0:
+                label_x.append(start)
+                if j == number - 1:
+                    label_x.append(end)
             cf_matrix[i, j] = len(data_in_range)
             row_sum[i] = row_sum[i] + cf_matrix[i, j]
     
@@ -42,7 +45,7 @@ def linear_confusion_matrix(y_true, y_pred, number=10, annot=False,
         fontsize = min(200 / number, 15)
     ax.set_xticks(np.arange(-.5, number, 1))
     ax.set_yticks(np.arange(-.5, number, 1))
-    ax.set_xticklabels(np.around(value_label, 3), fontsize=fontsize)
+    ax.set_xticklabels(np.around(label_x, 3), fontsize=fontsize)
     ax.set_yticklabels(np.around(value_label, 3), fontsize=fontsize)
     ax.grid(color='w', linestyle='-', linewidth=linewidth)
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
