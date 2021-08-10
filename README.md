@@ -9,3 +9,4 @@ Confusion Matrix for Linear Model
 # Confusion Matrix 2 for Linear Model
 
 <img src="4_cfmatrix20(49).PNG" alt="5" width="400"/>
+(X ticklabels is diffrent with original version)
